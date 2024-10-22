@@ -69,6 +69,17 @@
             /* Warna saat hover untuk tombol biru */
         }
 
+        h1 {
+            font-size: 26px;
+            /* atau sekitar 32px */
+            font-weight: bold;
+            margin: 0.67em 0;
+            /* Margin atas dan bawah */
+            color: black;
+            /* Warna teks */
+        }
+
+
         h4 {
             text-align: left;
             font-size: var(--h1-font-size, 22px);
@@ -199,14 +210,17 @@
 
         // Lokasi default jika izin geolocation ditolak
         const fallbackLocations = [
-            { name: "Fallback Lokasi 1", coordinates: "-7.975000, 110.334000" },
-            { name: "Fallback Lokasi 2", coordinates: "-7.976000, 110.331500" },
-            { name: "Fallback Lokasi 3", coordinates: "-7.975500, 110.333000" }
+            { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
+            { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
+            { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
         ];
 
         // Ikon yang sama untuk lokasi fallback
         const iconUrl = 'https://github.com/ridwansyaiful/web-gps/raw/main/placeholder%20(1).png'; // Ganti dengan URL ikon yang valid
-        const icon = L.icon({ iconUrl: iconUrl, iconSize: [25, 41] });
+        const icon = L.icon({ iconUrl: iconUrl, iconSize: [33, 45] });
+
+        const iconUrl1 = 'https://raw.githubusercontent.com/skakofficial/jiblapor/main/gps.png'; // Ganti dengan URL ikon yang valid
+        const icon1 = L.icon({ iconUrl: iconUrl1, iconSize: [41, 41] });
 
         function isInsideGeofence(lat, lon) {
             const bounds = defaultLocations.map(location => {
@@ -277,8 +291,8 @@
                         if (window.virtualMarker) {
                             map.removeLayer(window.virtualMarker);
                         }
-                        window.virtualMarker = L.marker([virtualLat, virtualLon]).addTo(map);
-                        window.virtualMarker.bindPopup("Titik Virtual (Simulasi)").openPopup();
+                        window.virtualMarker = L.marker([virtualLat, virtualLon], { icon: icon1 }).addTo(map);
+                        window.virtualMarker.bindPopup("GPS Patrol");
                     });
                 }
             }, 2000);
@@ -305,8 +319,8 @@
                     if (window.virtualMarker) {
                         map.removeLayer(window.virtualMarker);
                     }
-                    window.virtualMarker = L.marker([virtualLat, virtualLon]).addTo(map);
-                    window.virtualMarker.bindPopup("Titik Virtual").openPopup();
+                    window.virtualMarker = L.marker([virtualLat, virtualLon], { icon: icon1 }).addTo(map);
+                    window.virtualMarker.bindPopup("GPS Patrol").openPopup();
                 }
             });
         }
@@ -579,7 +593,7 @@
     <div class="datetime" id="datetime"></div>
     <div id="map"></div>
     <div class="container">
-        <h2>Pilih Salah Satu</h2>
+        <h2>Saya Lapor Sebagai :</h2>
         <!-- <a class="button" href="hobi.html">Pemancing / Pemburu</a> -->
         <button class="button" id="locationButton">Pemancing / Pemburu</button>
         <button class="button" id="tamuButton">Tamu</button>
