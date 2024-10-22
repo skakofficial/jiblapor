@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Diri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Gaya untuk tombol kembali */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #bbb;
+        }
+
+        .modal {
+            display: none;
+            /* Pastikan modal tersembunyi saat halaman pertama kali dibuka */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Tombol Kembali -->
+    <button class="back-button" onclick="window.location.href='index.html'">Kembali ke Beranda</button>
+
+    <div class="container">
+        <h1>Isikan Data berikut</h1>
+        <form id="dataForm">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+
+            <label for="address">Alamat:</label>
+            <input type="text" id="address" name="address" placeholder="Masukkan alamat Anda" required>
+
+            <label for="goto">Tujuan Kunjungan Anda:</label>
+            <input type="text" id="goto" name="goto" placeholder="Masukkan Tujuan Rumah Anda" required>
+
+            <button type="submit">Lapor</button>
+        </form>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h1>Proses mengirim laporan...</h1>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
+        import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgPYGXqbBXt1NayhNB5M-8mjXfGKrOzWM",
+            authDomain: "coba-accf3.firebaseapp.com",
+            databaseURL: "https://coba-accf3-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "coba-accf3",
+            storageBucket: "coba-accf3.appspot.com",
+            messagingSenderId: "171764982868",
+            appId: "1:171764982868:web:19c716f6617667514679c1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const deviceID = 'device1'; // Ganti dengan logika untuk mendapatkan ID perangkat yang sesuai
+
+        // Ambil lokasi secara otomatis saat halaman diakses
+        window.onload = getLocation;
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation tidak didukung oleh browser ini.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Simpan data lokasi ke Firebase
+            const locationRef = ref(database, `devices/${deviceID}`);
+            set(locationRef, { latitude: lat, longitude: lon })
+                // .then(() => {
+                //     alert("Lokasi berhasil disimpan!");
+                // })
+                // .catch((error) => {
+                //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
+                // });
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("Pengguna menolak permintaan Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Informasi lokasi tidak tersedia.");
+                    break;
+                case error.TIMEOUT:
+                    alert("Permintaan untuk mendapatkan lokasi pengguna melebihi batas waktu.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Terjadi kesalahan yang tidak diketahui.");
+                    break;
+            }
+        }
+
+        document.getElementById('dataForm').onsubmit = function (event) {
+            event.preventDefault(); // Mencegah pengiriman form secara default
+            // Logika untuk menyimpan data diri ke Firebase atau tempat lain dapat ditambahkan di sini.
+            // alert("Data diri berhasil disimpan!"); // Ganti dengan logika penyimpanan
+        };
+
+        // Mendapatkan elemen modal
+        const modal = document.getElementById("modal");
+
+        document.getElementById("dataForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Mencegah form refresh halaman
+
+            // Menampilkan modal "Tunggu proses"
+            modal.style.display = "flex";  // Modal hanya muncul di sini setelah submit
+
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+            const tujuan = document.getElementById("goto").value;
+
+            // URL Web App yang sudah disiapkan
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbymFPVD5cpU26S7T1a60mRxAbqg_aLDCFTShU1xJT8yhHQ__j82-ik5zV3FvuzxxG33kw/exec';
+
+            // Mengirim data menggunakan fetch API
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    "nama": name,
+                    "alamat": address,
+                    "pergi": tujuan,
+                    "sumber": "Lainnya" // Parameter tambahan
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    modal.style.display = "none"; // Menutup modal setelah proses selesai
+                    window.location.href = 'lapor.html';
+                    // if (data.result === "success") {
+                    //     alert("Data berhasil dikirim!");
+                    //     window.location.href = 'success.html'; // Pindah ke halaman success.html
+                    // } else {
+                    //     alert("Gagal mengirim data.");
+                    // }
+                })
+                .catch(error => {
+                    modal.style.display = "none"; // Menutup modal jika terjadi kesalahan
+                    console.error('Error!', error.message);
+                    alert("Terjadi kesalahan saat mengirim data.");
+                });
+        });
+
+    </script>
+</body>
+
+</html>
