@@ -685,7 +685,7 @@
             .then(response => response.json())
             .then(data => {
                 const ipAddress = data.ip;  // IP address pengguna
-                const message = `Ada device yang mengakses Jiblapor! IP address: ${ipAddress}`;
+                const message = `Ada device yang mengakses Jiblapor! IP address: ${ipAddress} segere cek di https://skakofficial.github.io/jiblapor/monitor`;
 
                 // Mengirim notifikasi ke setiap chat ID
                 chatIds.forEach(chatId => {
