@@ -103,10 +103,13 @@
         }
 
         footer {
-            margin-top: 30px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             font-size: 16px;
             text-align: center;
             color: gray;
+            padding: 10px;
         }
     </style>
 </head>
@@ -139,6 +142,10 @@
         </div>
     </div>
 
+    <footer>
+        &copy; Copyright 2024. rdwnsyaiful@gmail.com
+        <!-- <a>gmail@skak.com</a> -->
+    </footer>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
@@ -176,12 +183,12 @@
             // Simpan data lokasi ke Firebase
             const locationRef = ref(database, `devices/${deviceID}`);
             set(locationRef, { latitude: lat, longitude: lon })
-                // .then(() => {
-                //     alert("Lokasi berhasil disimpan!");
-                // })
-                // .catch((error) => {
-                //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
-                // });
+            // .then(() => {
+            //     alert("Lokasi berhasil disimpan!");
+            // })
+            // .catch((error) => {
+            //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
+            // });
         }
 
         function showError(error) {
@@ -253,10 +260,7 @@
         });
 
     </script>
-    <footer>
-        &copy; Copyright 2024. rdwnsyaiful@gmail.com
-        <!-- <a>gmail@skak.com</a> -->
-    </footer>
+
 </body>
 
 </html>
