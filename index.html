@@ -80,8 +80,9 @@
         }
 
         h2 {
-            font-size: 26px;
+            font-size: 18px;
             /* atau sekitar 32px */
+            font-family: Arial, Verdana, sans-serif;
             font-weight: bold;
             margin: 0.67em 0;
             /* Margin atas dan bawah */
@@ -377,7 +378,7 @@
             }
 
             if (isFirstLoad) {
-                // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama
+                // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama -7.9752553280231, 110.33341259493646
                 // map.setView([lat, lon], 17);
                 map.setView([-7.9752553280231, 110.33341259493646], 16);
                 isFirstLoad = false;
@@ -460,7 +461,7 @@
         }
 
         // Inisialisasi peta
-        const map = L.map('map').setView([-7.975500, 110.333500], 15);
+        const map = L.map('map').setView([-7.975500, 110.333500], 10);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
         // Buat wilayah geofencing dengan warna biru muda transparan
