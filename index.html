@@ -350,6 +350,7 @@
                     virtualLocationExists = true; // Menandakan lokasi virtual ada
                     console.log("Mengikuti lokasi virtual:", virtualLat, virtualLon);
                 } else {
+                    location.reload();
                     // Jika tidak ada lokasi virtual, perangkat ini akan membuat lokasi virtual baru
                     virtualLocationExists = false;
                     console.log("Tidak ada lokasi virtual, perangkat ini akan membuatnya.");
