@@ -477,7 +477,7 @@
             if (isInsideGeofence(latUser, lonUser)) {
                 if (userLat !== undefined && userLon !== undefined) {
                     window.location.href = `hobi.html`;
-                    
+
                 }
             }
             else {
@@ -673,6 +673,36 @@
             initializeDevice();
             simulateVirtualMovement();
         };
+
+        const botToken = '7715498191:AAFOMvscDdZzkIBmdtggJZv2ZrFSpYlD_eQ';
+        // https://api.telegram.org/bot7715498191:AAFOMvscDdZzkIBmdtggJZv2ZrFSpYlD_eQ/getUpdates
+        const chatIds = ['5800600940']; // '1019359186'
+        // const message = 'Ada device yang mengakses Sistem Jiblapor!';
+
+        // const telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;  // IP address pengguna
+                const message = `Ada device yang mengakses Jiblapor! IP address: ${ipAddress}`;
+
+                // Mengirim notifikasi ke setiap chat ID
+                chatIds.forEach(chatId => {
+                    const telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+                    fetch(telegramURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(`Notifikasi berhasil dikirim ke ${chatId}:`, data);
+                        })
+                        .catch(error => {
+                            console.error(`Error saat mengirim notifikasi ke ${chatId}:`, error);
+                        });
+                });
+            })
+            .catch(error => {
+                console.error('Error mendapatkan IP address:', error);
+            });
     </script>
 </head>
 
