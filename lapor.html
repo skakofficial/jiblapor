@@ -4,13 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Lapor</title>
+    <title>Sistem Jiblapor</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
         #map {
-            height: 400px;
+            height: 300px;
             width: 100%;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #008CBA;
+            /* Warna hijau */
+            color: white;
+            /* Warna teks */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            /* Menghilangkan garis bawah */
+        }
+
+        .button:hover {
+            background-color: #45a049;
+            /* Warna saat hover */
+        }
+
+        .datetime {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .blue-button {
+            background-color: #4CAF50;
+            /* Warna biru */
+            color: white;
+            display: block;
+            /* Membuat tombol biru tampil memanjang */
+            width: 80%;
+            /* Ukuran memanjang */
+            margin: 20px auto;
+            /* Mengatur posisi tengah */
+            padding: 15px;
+            /* Padding tombol biru */
+            font-size: 18px;
+            /* Ukuran font lebih besar */
+            text-align: center;
+            /* Teks di tengah */
+            text-decoration: none;
+            /* Menghilangkan garis bawah */
+        }
+
+        .blue-button:hover {
+            background-color: #007bb5;
+            /* Warna saat hover untuk tombol biru */
         }
 
         h1 {
@@ -61,57 +118,6 @@
             /* Tambahkan margin atas jika diperlukan */
         }
 
-        .container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #008CBA;
-            /* Warna hijau */
-            color: white;
-            /* Warna teks */
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            /* Menghilangkan garis bawah */
-        }
-
-        .button:hover {
-            background-color: #45a049;
-            /* Warna saat hover */
-        }
-
-        .blue-button {
-            background-color: #4CAF50;
-            /* Warna biru */
-            color: white;
-            display: block;
-            /* Membuat tombol biru tampil memanjang */
-            width: 80%;
-            /* Ukuran memanjang */
-            margin: 20px auto;
-            /* Mengatur posisi tengah */
-            padding: 15px;
-            /* Padding tombol biru */
-            font-size: 18px;
-            /* Ukuran font lebih besar */
-            text-align: center;
-            /* Teks di tengah */
-            text-decoration: none;
-            /* Menghilangkan garis bawah */
-        }
-
-        .blue-button:hover {
-            background-color: #007bb5;
-            /* Warna saat hover untuk tombol biru */
-        }
-
         /* Styling untuk daftar bernomor */
         ol {
             text-align: left;
@@ -120,11 +126,63 @@
             line-height: 1.6;
         }
 
+        .social-icons {
+            margin-top: 1px;
+            text-align: center;
+        }
+
+        .social-icons img {
+            width: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .social-icons a:hover {
+            text-decoration: underline;
+        }
+
+        #mampir {
+            margin-top: 50px;
+            margin-bottom: 10px;
+            font-size: 17px;
+            text-align: center;
+        }
+
         footer {
             margin-top: 30px;
             font-size: 16px;
             text-align: center;
             color: gray;
+        }
+
+        @keyframes blink {
+            0% {
+                visibility: visible;
+            }
+
+            50% {
+                visibility: hidden;
+            }
+
+            100% {
+                visibility: visible;
+            }
+        }
+
+        /* Styling untuk tulisan berkedip */
+        .blinking-text {
+            /* line-height: 0.5; */
+            margin-top: 1px;
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+            animation: blink 1s steps(2, start) infinite;
         }
     </style>
     <script type="module">
@@ -133,6 +191,17 @@
 
         let userLat, userLon;
         let locationPermissionGranted = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let locationPermissionGranted1 = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let locationPermissionGranted2 = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let locationPermissionGranted3 = false;
+
+        let hobiku = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let dayoh = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let liane = false; // Variabel untuk mengecek apakah izin sudah diberikan
+        let kampung = false;
+
+        let locationRequested = false;
+        let nextLat, nextLon;
 
         const firebaseConfig = {
             apiKey: "AIzaSyDgPYGXqbBXt1NayhNB5M-8mjXfGKrOzWM",
@@ -157,19 +226,24 @@
         let virtualLocationExists = false; // Flag untuk menandakan apakah lokasi virtual sudah ada
         let userLocationVisible = false; // Flag untuk menandakan lokasi pengguna terlihat
 
+        let latUser, lonUser;
+
         // Lokasi geofencing
         const defaultLocations = [
-            { name: "lokasi a", coordinates: "-7.974107, 110.335574" },
-            { name: "lokasi b", coordinates: "-7.974263, 110.331069" },
-            { name: "lokasi c", coordinates: "-7.977164, 110.330796" },
-            { name: "lokasi d", coordinates: "-7.975760, 110.334861" }
+            // { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
+            { name: "lokasi a", coordinates: "-7.806668986630278, 110.44339192656925" }, //pojok
+            // { name: "lokasi b", coordinates: "-7.974263, 110.331069" }, //pojok
+            // { name: "lokasi b", coordinates: "-7.804245476085198, 110.44006598750283" }, //pojok -7.817537183819996, 110.22370569251571
+            { name: "lokasi b", coordinates: "-7.817537183819996, 110.22370569251571" },
+            { name: "lokasi c", coordinates: "-7.977164, 110.330796" }, //pojok
+            { name: "lokasi d", coordinates: "-7.975760, 110.334861" } //pojok
         ];
 
         // Lokasi default jika izin geolocation ditolak
         const fallbackLocations = [
-            { name: "Fallback Lokasi 1", coordinates: "-7.975000, 110.334000" },
-            { name: "Fallback Lokasi 2", coordinates: "-7.976000, 110.331500" },
-            { name: "Fallback Lokasi 3", coordinates: "-7.975500, 110.333000" }
+            { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
+            { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
+            { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
         ];
 
         // Ikon yang sama untuk lokasi fallback
@@ -185,6 +259,30 @@
                 return [lat, lon];
             });
             return L.polygon(bounds).getBounds().contains(L.latLng(lat, lon));
+        }
+
+        // function isInsideGeofence(lat, lon) {
+        //     // Ambil koordinat dari defaultLocations
+        //     const bounds = defaultLocations.map(location => {
+        //         const coords = location.coordinates.split(',').map(coord => parseFloat(coord.trim()));
+        //         return [coords[0], coords[1]];
+        //     });
+
+        //     // Buat polygon dari titik-titik tersebut
+        //     const geofencePolygon = L.polygon(bounds);
+
+        //     // Periksa apakah titik pengguna berada di dalam polygon
+        //     return geofencePolygon.getBounds().contains(L.latLng(lat, lon));
+        // }
+
+        function checkGeofence(lat, lon) {
+            if (isInsideGeofence(lat, lon)) {
+                console.log("Lokasi berada di dalam geofence.");
+                // Lakukan tindakan jika berada di dalam geofence
+            } else {
+                console.log("Lokasi berada di luar geofence.");
+                // Lakukan tindakan jika berada di luar geofence
+            }
         }
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -225,7 +323,7 @@
                         userLat = userLocation.latitude;
                         userLon = userLocation.longitude;
 
-                        let nextLat, nextLon;
+                        nextLat, nextLon;
 
                         // Pilih arah acak untuk lokasi virtual
                         do {
@@ -249,7 +347,7 @@
                             map.removeLayer(window.virtualMarker);
                         }
                         window.virtualMarker = L.marker([virtualLat, virtualLon], { icon: icon1 }).addTo(map);
-                        window.virtualMarker.bindPopup("GPS Patrol").openPopup();
+                        window.virtualMarker.bindPopup("GPS Patrol");
                     });
                 }
             }, 2000);
@@ -323,8 +421,9 @@
             }
 
             if (isFirstLoad) {
-                // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama
-                map.setView([lat, lon], 15);
+                // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama -7.9752553280231, 110.33341259493646
+                // map.setView([lat, lon], 17);
+                map.setView([-7.9752553280231, 110.33341259493646], 16);
                 isFirstLoad = false;
             }
 
@@ -335,25 +434,56 @@
 
             window.userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
-
-            // Setelah lokasi ditemukan, pindah ke halaman baru (contoh: halaman2.html)
-            if (!locationPermissionGranted)
-                window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
-            locationPermissionGranted = true;
+            latUser = lat;
+            lonUser = lon;
         }
 
         // Fungsi untuk mengarahkan pengguna ke halaman hobi dengan lat dan lon
         function redirectToHobi() {
-            if (userLat !== undefined && userLon !== undefined) {
-                window.location.href = `hobi.html?lat=${userLat}&lon=${userLon}`;
+            if (isInsideGeofence(latUser, lonUser)) {
+                if (userLat !== undefined && userLon !== undefined) {
+                    window.location.href = `hobi.html`;
+
+                }
+            }
+            else {
+                alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
+                window.location.href = `gabut.html`;
             }
         }
+
+        // function redirectToTamu() {
+        //     if (isInsideGeofence(latUser, lonUser)) {
+        //         window.location.href = `tamu.html?lat=${userLat}&lon=${userLon}`;
+        //     }
+        //     else {
+        //         alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
+        //         window.location.href = `gabut.html`;
+        //     }
+        // }
+
+        // function redirectToLain() {
+        //     if (isInsideGeofence(latUser, lonUser)) {
+        //         window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
+        //     }
+        //     else {
+        //         alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
+        //         window.location.href = `gabut.html`;
+        //     }
+        //     // if (userLat !== undefined && userLon !== undefined) {
+        //     //     window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
+        //     // }
+        // }
+
+        // function redirectToPeta() {
+        //     if (userLat !== undefined && userLon !== undefined) {
+        //         window.location.href = `peta.html?lat=${userLat}&lon=${userLon}`;
+        //     }
+        // }
 
         function getLocation() {
 
             if (navigator.geolocation) {
-                // handleLocation();
-                // window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
                 navigator.geolocation.watchPosition(showPosition, handleLocationError);
             } else {
                 alert("Geolocation tidak didukung oleh browser ini.");
@@ -362,38 +492,17 @@
             }
         }
 
-        // function handleLocation() {
-        //     if (navigator.geolocation) {
-        //         navigator.geolocation.getCurrentPosition(
-        //             // Jika berhasil mendapatkan lokasi
-        //             function (position) {
-        //                 userLat = position.coords.latitude;
-        //                 userLon = position.coords.longitude;
-        //                 redirectToHobi(); // Langsung pindah ke halaman hobi
-        //             },
-        //             // Jika gagal mendapatkan lokasi (misal pengguna menolak izin)
-        //             function (error) {
-        //                 if (error.code === error.PERMISSION_DENIED) {
-        //                     alert("Mohon izinkan akses lokasi untuk melanjutkan.");
-        //                 } else {
-        //                     alert("Gagal mendapatkan lokasi. Silakan coba lagi.");
-        //                 }
-        //             }
-        //         );
-        //     } else {
-        //         alert("Geolocation tidak didukung oleh browser ini.");
-        //     }
-        // }
-
         function handleLocationError(error) {
+            window.location.href = "failed.html";
             console.error("Error mendapatkan lokasi:", error);
+
             userLocationVisible = false; // Menandakan lokasi pengguna tidak terlihat
             showFallbackLocations(); // Tampilkan lokasi fallback jika ada kesalahan
             map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
         }
 
         // Inisialisasi peta
-        const map = L.map('map').setView([-7.975500, 110.333500], 15);
+        const map = L.map('map').setView([-7.975500, 110.333500], 10);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
         // Buat wilayah geofencing dengan warna biru muda transparan
@@ -416,18 +525,6 @@
             }
         }, 3000);
 
-        // Fungsi yang akan menangani tombol ketika ditekan
-        function handleLocation() {
-            if (locationPermissionGranted) {
-                // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
-                redirectToHobi();
-            } else {
-                // Jika izin belum diberikan, minta izin terlebih dahulu
-                // requestLocation();
-                getLocation();
-            }
-        }
-
         // Fungsi untuk memeriksa apakah izin lokasi sudah diberikan sebelumnya
         function checkIfLocationAllowed() {
             if (navigator.permissions) {
@@ -435,7 +532,12 @@
                     if (result.state === 'granted') {
                         // Jika izin sudah diberikan, kita bisa langsung berpindah saat tombol ditekan
                         locationPermissionGranted = true;
+                        locationPermissionGranted1 = true;
+                        locationPermissionGranted2 = true;
+                        locationPermissionGranted3 = true;
+
                         getLocation();
+                        // document.getElementById("warningText").style.display = "none";
 
                         // Dapatkan lokasi secara otomatis jika sudah diizinkan
                         navigator.geolocation.getCurrentPosition(function (position) {
@@ -445,14 +547,31 @@
                     } else {
                         // Jika belum diberikan, izin harus diminta dengan menekan tombol
                         locationPermissionGranted = false;
+                        locationPermissionGranted1 = false;
+                        locationPermissionGranted2 = false;
+                        locationPermissionGranted3 = false;
                     }
                 });
             }
         }
 
+        function updateDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            const timeString = now.toLocaleTimeString('id-ID');
+            document.getElementById('datetime').innerHTML = `${dateString}, ${timeString}`;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
         // Memulai saat halaman dimuat
         window.onload = async () => {
             // document.getElementById("locationButton").addEventListener("click", handleLocation);
+            // document.getElementById("tamuButton").addEventListener("click", handleTamu);
+            // document.getElementById("lainButton").addEventListener("click", handleLain);
+            // document.getElementById("homeButton").addEventListener("click", handlePeta);
             // if (locationPermissionGranted) {
             //     // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
             //     getLocation();
@@ -476,6 +595,8 @@
 <body>
     <h1>Selamat laporan Anda diterima</h1>
     <h2>Gunakan legalitas GPS Anda dengan bijak</h2>
+    <!-- <p class="blinking-text" id="warningText">(!) GPS Anda terdeteksi ilegal, segera laporkan kunjungan Anda</p> -->
+    <div class="datetime" id="datetime"></div>
     <div id="map"></div>
     <div class="container">
         <h1>Peta Dusun</h1>
@@ -486,21 +607,48 @@
             <li>Jam kunjung tamu maksimal pukul 21.00 WIB.</li>
             <li>Patuhi aturan setempat selama berada di wilayah ini.</li>
         </ol>
-        <!-- <h4>1. Waktu berkunjung maksimal pukul 21.00 WIB</h4> -->
+        <!-- <h2>Kunjungan Anda Sebagai :</h2> -->
         <!-- <a class="button" href="hobi.html">Pemancing / Pemburu</a> -->
-        <!-- <button class="button" id="locationButton">Pemancing / Pemburu</button> -->
-        <!-- <button id="tombol_1" onclick="handleLocation()">Izinkan</button> -->
+        <!-- <button class="button" id="locationButton">Pemancing / Pemburu</button>
+        <button class="button" id="tamuButton">Tamu</button>
+        <button class="button" id="lainButton">Lainnya</button> -->
 
-        <!-- <a class="button" href="halaman2.html">Tamu</a>
-        <a class="button" href="halaman3.html">Lainnya</a> -->
-        <!-- Tombol Biru memanjang di bawah -->
-        <a class="blue-button" href="index.html">Kembali ke Home</a>
-        <!-- <h1>PERATURAN DUSUN :</h1> -->
-    </div>
-    <footer>
-        &copy; Copyright 2024. rdwnsyaiful@gmail.com
-        <!-- <a>gmail@skak.com</a> -->
-    </footer>
+        <a class="blue-button" href="index.html">Kembali ke Beranda</a>
+        <!-- <button class="blue-button" id="homeButton">Kembali ke Beranda</button> -->
+        <!-- <h4>Tata Cara Pelaporan :</h4>
+        <ol>
+            <li>Pilih salah satu Anda lapor sebagai apa dengan menekan tombol biru.</li>
+            <li>Izinkan web minta lokasi anda untuk pendaftaran GPS legal.</li>
+            <li>Isi identitas (nama dan alamat singkat / nama dusun).</li>
+            <li>Klik tombol "Lapor" dan tunggu laporan diterima.</li>
+            <li>Setelah laporan diterima maka GPS Anda legal.</li>
+        </ol>
+        <h4>(!) Penting :</h4>
+        <ol>
+            <li>Jam Kunjung maksimal pukul 21.00 WIB.</li>
+            <li>Jika melakukan COD Pengambilan barang diluar jam kunjung klik tombol "Lainnya" dan isikan detail barang
+                yang diambil (contoh: COD burung, COD motor, COD kambing, dll).</li>
+        </ol>
+        <h4>Sistem ini tidak bisa mendeteksi GPS Anda dengan baik selama diluar geofencing (wilayah geografis yang akan
+            memicu respons otomatis) yang telah ditentukan</h4>
+    </div> -->
+
+        <!-- <div id="mampir">Monggo Pinarak :</div>
+    <div class="social-icons">
+        <div>
+            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" />
+            <a href="https://www.tiktok.com/@skak_official?_t=8qXrh64j5yK&_r=1" target="_blank">@skak_official</a>
+        </div>
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
+            <a href="https://instagram.com/skakofficiall?igsh=anY1NTV4OGRxOXpw" target="_blank">@skakofficiall</a>
+        </div>
+    </div> -->
+
+        <footer>
+            &copy; Copyright 2024. rdwnsyaiful@gmail.com
+            <!-- <a>gmail@skak.com</a> -->
+        </footer>
 </body>
 
 </html>
