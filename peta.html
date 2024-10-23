@@ -119,6 +119,13 @@
             font-size: 18px;
             line-height: 1.6;
         }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: center;
+            color: gray;
+        }
     </style>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
@@ -314,7 +321,7 @@
 
             if (isFirstLoad) {
                 // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama
-                map.setView([lat, lon], 16);
+                map.setView([lat, lon], 15);
                 isFirstLoad = false;
             }
 
@@ -351,29 +358,6 @@
                 map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
             }
         }
-
-        // function handleLocation() {
-        //     if (navigator.geolocation) {
-        //         navigator.geolocation.getCurrentPosition(
-        //             // Jika berhasil mendapatkan lokasi
-        //             function (position) {
-        //                 userLat = position.coords.latitude;
-        //                 userLon = position.coords.longitude;
-        //                 redirectToHobi(); // Langsung pindah ke halaman hobi
-        //             },
-        //             // Jika gagal mendapatkan lokasi (misal pengguna menolak izin)
-        //             function (error) {
-        //                 if (error.code === error.PERMISSION_DENIED) {
-        //                     alert("Mohon izinkan akses lokasi untuk melanjutkan.");
-        //                 } else {
-        //                     alert("Gagal mendapatkan lokasi. Silakan coba lagi.");
-        //                 }
-        //             }
-        //         );
-        //     } else {
-        //         alert("Geolocation tidak didukung oleh browser ini.");
-        //     }
-        // }
 
         function handleLocationError(error) {
             console.error("Error mendapatkan lokasi:", error);
@@ -471,22 +455,13 @@
         <h1>Development process</h1>
         <h3>Development process</h3>
         <h1> --- </h1>
-        <!-- <ol>
-            <li>Laporan dan legalitas GPS Anda berlaku 1 x 24 Jam.</li>
-            <li>Jam kunjung tamu maksimal pukul 21.00 WIB.</li>
-            <li>Patuhi aturan setempat selama berada di wilayah ini.</li>
-        </ol> -->
-        <!-- <h4>1. Waktu berkunjung maksimal pukul 21.00 WIB</h4> -->
-        <!-- <a class="button" href="hobi.html">Pemancing / Pemburu</a> -->
-        <!-- <button class="button" id="locationButton">Pemancing / Pemburu</button> -->
-        <!-- <button id="tombol_1" onclick="handleLocation()">Izinkan</button> -->
-
-        <!-- <a class="button" href="halaman2.html">Tamu</a>
-        <a class="button" href="halaman3.html">Lainnya</a> -->
-        <!-- Tombol Biru memanjang di bawah -->
         <a class="blue-button" href="index.html">Kembali ke Home</a>
         <!-- <h1>PERATURAN DUSUN :</h1> -->
     </div>
+    <footer>
+        &copy; Copyright 2024. rdwnsyaiful@gmail.com
+        <!-- <a>gmail@skak.com</a> -->
+    </footer>
 </body>
 
 </html>
