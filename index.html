@@ -452,17 +452,20 @@
                 hobiku = false;
             }
             if (!locationPermissionGranted1 && dayoh) {
-                window.location.href = `tamu.html?lat=${lat}&lon=${lon}`;
+                redirectToTamu();
+                // window.location.href = `tamu.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted1 = true;
                 dayoh = false;
             }
             if (!locationPermissionGranted2 && liane) {
-                window.location.href = `lainnya.html?lat=${lat}&lon=${lon}`;
+                redirectToLain();
+                // window.location.href = `lainnya.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted2 = true;
                 liane = false;
             }
             if (!locationPermissionGranted3 && kampung) {
-                window.location.href = `peta.html?lat=${lat}&lon=${lon}`;
+                redirectToPeta();
+                // window.location.href = `peta.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted3 = true;
                 kampung = false;
             }
