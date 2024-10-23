@@ -119,6 +119,13 @@
             font-size: 18px;
             line-height: 1.6;
         }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: center;
+            color: gray;
+        }
     </style>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
@@ -317,8 +324,7 @@
 
             if (isFirstLoad) {
                 // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama
-                // map.setView([lat, lon], 16);
-                map.setView([-7.9752553280231, 110.33341259493646], 16);
+                map.setView([lat, lon], 15);
                 isFirstLoad = false;
             }
 
@@ -491,6 +497,10 @@
         <a class="blue-button" href="index.html">Kembali ke Home</a>
         <!-- <h1>PERATURAN DUSUN :</h1> -->
     </div>
+    <footer>
+        &copy; Copyright 2024. rdwnsyaiful@gmail.com
+        <!-- <a>gmail@skak.com</a> -->
+    </footer>
 </body>
 
 </html>
