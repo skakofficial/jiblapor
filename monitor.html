@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +33,12 @@
         let map;
         let markers = {}; // Menyimpan marker perangkat berdasarkan deviceId
 
+        const iconUrl1 = 'https://raw.githubusercontent.com/ridwansyaiful/web-gps/main/blackgps2.png'; // Ganti dengan URL ikon yang valid
+        const icon1 = L.icon({ iconUrl: iconUrl1, iconSize: [33, 45] });
+
+        const iconUrl2 = 'https://raw.githubusercontent.com/skakofficial/jiblapor/main/gps.png'; // Ganti dengan URL ikon yang valid
+        const icon2 = L.icon({ iconUrl: iconUrl2, iconSize: [41, 41] });
+
         // Fungsi untuk menghapus semua data lokasi di Firebase
         function clearAllLocations() {
             const locationsRef = ref(database, 'devices');
@@ -63,10 +70,15 @@
                         const lat = deviceData.latitude;
                         const lon = deviceData.longitude;
 
+                        const isVirtual = deviceId.startsWith("virtualLocation"); // Ganti dengan logika yang sesuai
+                        const icon = isVirtual ? icon2 : icon1; // Ganti dengan path ikon yang sesuai
                         // Buat atau perbarui marker di peta
-                        const marker = L.marker([lat, lon]).addTo(map)
+                        // const marker = L.marker([lat, lon]).addTo(map)
+                        //     .bindPopup(`<b>${deviceId}</b><br>Latitude: ${lat}<br>Longitude: ${lon}`);
+
+                        const marker = L.marker([lat, lon], { icon: icon }).addTo(map)
                             .bindPopup(`<b>${deviceId}</b><br>Latitude: ${lat}<br>Longitude: ${lon}`);
-                        
+
                         // Simpan marker dalam objek markers
                         markers[deviceId] = marker;
                     });
@@ -76,7 +88,7 @@
 
         // Fungsi untuk inisialisasi peta
         function initializeMap() {
-            map = L.map('map').setView([-6.200000, 106.816666], 5); // Fokus awal di Indonesia
+            map = L.map('map').setView([-7.9752553280231, 110.33341259493646], 16); // Fokus awal di Indonesia map.setView([-7.9752553280231, 110.33341259493646], 16);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -84,16 +96,18 @@
         }
 
         // Ketika halaman dimuat, hapus semua data lokasi terlebih dahulu, kemudian pantau lokasi
-        window.onload = function() {
+        window.onload = function () {
             clearAllLocations(); // Menghapus semua data lokasi di Firebase
             initializeMap(); // Inisialisasi peta
             monitorDevices(); // Memantau perangkat secara real-time
         };
     </script>
 </head>
+
 <body>
     <h1>Sistem Monitoring</h1>
     <p>Proses Development...</p>
     <div id="map"></div> <!-- Peta untuk menampilkan lokasi perangkat -->
 </body>
+
 </html>
