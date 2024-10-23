@@ -217,10 +217,11 @@
 
         // Lokasi geofencing
         const defaultLocations = [
-            // { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
-            { name: "lokasi a", coordinates: "-7.806668986630278, 110.44339192656925" }, //pojok
-            // { name: "lokasi b", coordinates: "-7.974263, 110.331069" }, //pojok
-            { name: "lokasi b", coordinates: "-7.804245476085198, 110.44006598750283" }, //pojok
+            { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
+            // { name: "lokasi a", coordinates: "-7.806668986630278, 110.44339192656925" }, //pojok
+            { name: "lokasi b", coordinates: "-7.974263, 110.331069" }, //pojok
+            // { name: "lokasi b", coordinates: "-7.804245476085198, 110.44006598750283" }, //pojok -7.817537183819996, 110.22370569251571
+            // { name: "lokasi b", coordinates: "-7.817537183819996, 110.22370569251571" },
             { name: "lokasi c", coordinates: "-7.977164, 110.330796" }, //pojok
             { name: "lokasi d", coordinates: "-7.975760, 110.334861" } //pojok
         ];
@@ -395,24 +396,24 @@
             window.fallbackMarker.bindPopup(location.name).openPopup();
         }
 
-        function checkUserLocationInGeofence() {
-            if (userLat !== undefined && userLon !== undefined) {
-                hobiku = false;
-                if (isInsideGeofence(userLat, userLon)) {
-                    window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
-                    locationPermissionGranted = true;
+        // function checkUserLocationInGeofence() {
+        //     if (userLat !== undefined && userLon !== undefined) {
+        //         hobiku = false;
+        //         if (isInsideGeofence(userLat, userLon)) {
+        //             window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
+        //             locationPermissionGranted = true;
 
-                    console.log("Anda berada di dalam geofencing.");
-                    alert("Anda berada di dalam geofencing.");
-                } else {
-                    console.log("Anda berada di luar geofencing.");
-                    alert("Anda berada di luar geofencing.");
-                }
-            } else {
-                console.log("Lokasi pengguna belum tersedia.");
-                alert("Lokasi pengguna belum tersedia.");
-            }
-        }
+        //             console.log("Anda berada di dalam geofencing.");
+        //             alert("Anda berada di dalam geofencing.");
+        //         } else {
+        //             console.log("Anda berada di luar geofencing.");
+        //             alert("Anda berada di luar geofencing.");
+        //         }
+        //     } else {
+        //         console.log("Lokasi pengguna belum tersedia.");
+        //         alert("Lokasi pengguna belum tersedia.");
+        //     }
+        // }
 
 
         function showPosition(position) {
@@ -476,6 +477,7 @@
             if (isInsideGeofence(latUser, lonUser)) {
                 if (userLat !== undefined && userLon !== undefined) {
                     window.location.href = `hobi.html`;
+                    
                 }
             }
             else {
