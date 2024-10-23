@@ -500,6 +500,9 @@
             userLocationVisible = false; // Menandakan lokasi pengguna tidak terlihat
             showFallbackLocations(); // Tampilkan lokasi fallback jika ada kesalahan
             map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
+            setInterval(() => {
+                location.reload();
+            }, 3000);
         }
 
         // Inisialisasi peta
