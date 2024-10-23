@@ -217,10 +217,10 @@
 
         // Lokasi geofencing
         const defaultLocations = [
-            { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
-            // { name: "lokasi a", coordinates: "-7.806668986630278, 110.44339192656925" }, //pojok
-            { name: "lokasi b", coordinates: "-7.974263, 110.331069" }, //pojok
-            // { name: "lokasi b", coordinates: "-7.804245476085198, 110.44006598750283" }, //pojok
+            // { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
+            { name: "lokasi a", coordinates: "-7.806668986630278, 110.44339192656925" }, //pojok
+            // { name: "lokasi b", coordinates: "-7.974263, 110.331069" }, //pojok
+            { name: "lokasi b", coordinates: "-7.804245476085198, 110.44006598750283" }, //pojok
             { name: "lokasi c", coordinates: "-7.977164, 110.330796" }, //pojok
             { name: "lokasi d", coordinates: "-7.975760, 110.334861" } //pojok
         ];
@@ -445,19 +445,19 @@
             // Setelah lokasi ditemukan, pindah ke halaman baru (contoh: halaman2.html)
             if (!locationPermissionGranted && hobiku) {
                 redirectToHobi();
+                // if (hobiku) {
+                // checkUserLocationInGeofence()
                 // window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted = true;
                 hobiku = false;
             }
             if (!locationPermissionGranted1 && dayoh) {
-                redirectToTamu();
-                // window.location.href = `tamu.html?lat=${lat}&lon=${lon}`;
+                window.location.href = `tamu.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted1 = true;
                 dayoh = false;
             }
             if (!locationPermissionGranted2 && liane) {
-                redirectToLain();
-                // window.location.href = `lainnya.html?lat=${lat}&lon=${lon}`;
+                window.location.href = `lainnya.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted2 = true;
                 liane = false;
             }
@@ -472,40 +472,36 @@
         function redirectToHobi() {
             if (isInsideGeofence(latUser, lonUser)) {
                 if (userLat !== undefined && userLon !== undefined) {
-                    // window.location.href = `hobi.html?lat=${userLat}&lon=${userLon}`;
                     window.location.href = `hobi.html`;
                 }
             }
             else {
+                alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
                 window.location.href = `gabut.html`;
-                // alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
             }
         }
 
         function redirectToTamu() {
             if (isInsideGeofence(latUser, lonUser)) {
-                if (userLat !== undefined && userLon !== undefined) {
-                    window.location.href = `tamu.html`;
-                }
+                window.location.href = `tamu.html?lat=${userLat}&lon=${userLon}`;
             }
             else {
+                alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
                 window.location.href = `gabut.html`;
-                // alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
             }
-
         }
 
         function redirectToLain() {
             if (isInsideGeofence(latUser, lonUser)) {
-                if (userLat !== undefined && userLon !== undefined) {
-                    window.location.href = `lainnya.html`;
-                }
+                window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
             }
             else {
+                alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
                 window.location.href = `gabut.html`;
-                // alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
             }
-
+            // if (userLat !== undefined && userLon !== undefined) {
+            //     window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
+            // }
         }
 
         function redirectToPeta() {
