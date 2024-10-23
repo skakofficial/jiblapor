@@ -101,6 +101,13 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: center;
+            color: gray;
+        }
     </style>
 </head>
 
@@ -113,13 +120,13 @@
         <h1>Isikan Data berikut</h1>
         <form id="dataForm">
             <label for="name">Nama:</label>
-            <input type="text" id="name" name="name" placeholder="contoh: eripras" required>
+            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
 
             <label for="address">Alamat:</label>
-            <input type="text" id="address" name="address" placeholder="contoh: Dusun Krapyak" required>
+            <input type="text" id="address" name="address" placeholder="Masukkan alamat Anda" required>
 
             <label for="goto">Tujuan Kunjungan Anda:</label>
-            <input type="text" id="goto" name="goto" placeholder="contoh: Dodolan marning" required>
+            <input type="text" id="goto" name="goto" placeholder="Masukkan Tujuan Rumah Anda" required>
 
             <button type="submit">Lapor</button>
         </form>
@@ -169,12 +176,12 @@
             // Simpan data lokasi ke Firebase
             const locationRef = ref(database, `devices/${deviceID}`);
             set(locationRef, { latitude: lat, longitude: lon })
-                // .then(() => {
-                //     alert("Lokasi berhasil disimpan!");
-                // })
-                // .catch((error) => {
-                //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
-                // });
+            // .then(() => {
+            //     alert("Lokasi berhasil disimpan!");
+            // })
+            // .catch((error) => {
+            //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
+            // });
         }
 
         function showError(error) {
@@ -246,6 +253,10 @@
         });
 
     </script>
+    <footer>
+        &copy; Copyright 2024. rdwnsyaiful@gmail.com
+        <!-- <a>gmail@skak.com</a> -->
+    </footer>
 </body>
 
 </html>
