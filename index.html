@@ -213,6 +213,8 @@
         let virtualLocationExists = false; // Flag untuk menandakan apakah lokasi virtual sudah ada
         let userLocationVisible = false; // Flag untuk menandakan lokasi pengguna terlihat
 
+        let latUser, lonUser;
+
         // Lokasi geofencing
         const defaultLocations = [
             // { name: "lokasi a", coordinates: "-7.974107, 110.335574" }, //pojok
@@ -243,6 +245,30 @@
                 return [lat, lon];
             });
             return L.polygon(bounds).getBounds().contains(L.latLng(lat, lon));
+        }
+
+        // function isInsideGeofence(lat, lon) {
+        //     // Ambil koordinat dari defaultLocations
+        //     const bounds = defaultLocations.map(location => {
+        //         const coords = location.coordinates.split(',').map(coord => parseFloat(coord.trim()));
+        //         return [coords[0], coords[1]];
+        //     });
+
+        //     // Buat polygon dari titik-titik tersebut
+        //     const geofencePolygon = L.polygon(bounds);
+
+        //     // Periksa apakah titik pengguna berada di dalam polygon
+        //     return geofencePolygon.getBounds().contains(L.latLng(lat, lon));
+        // }
+
+        function checkGeofence(lat, lon) {
+            if (isInsideGeofence(lat, lon)) {
+                console.log("Lokasi berada di dalam geofence.");
+                // Lakukan tindakan jika berada di dalam geofence
+            } else {
+                console.log("Lokasi berada di luar geofence.");
+                // Lakukan tindakan jika berada di luar geofence
+            }
         }
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -369,6 +395,26 @@
             window.fallbackMarker.bindPopup(location.name).openPopup();
         }
 
+        function checkUserLocationInGeofence() {
+            if (userLat !== undefined && userLon !== undefined) {
+                hobiku = false;
+                if (isInsideGeofence(userLat, userLon)) {
+                    window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
+                    locationPermissionGranted = true;
+
+                    console.log("Anda berada di dalam geofencing.");
+                    alert("Anda berada di dalam geofencing.");
+                } else {
+                    console.log("Anda berada di luar geofencing.");
+                    alert("Anda berada di luar geofencing.");
+                }
+            } else {
+                console.log("Lokasi pengguna belum tersedia.");
+                alert("Lokasi pengguna belum tersedia.");
+            }
+        }
+
+
         function showPosition(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
@@ -394,9 +440,12 @@
 
             window.userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
-
+            latUser = lat;
+            lonUser = lon;
             // Setelah lokasi ditemukan, pindah ke halaman baru (contoh: halaman2.html)
             if (!locationPermissionGranted && hobiku) {
+                // if (hobiku) {
+                // checkUserLocationInGeofence()
                 window.location.href = `hobi.html?lat=${lat}&lon=${lon}`;
                 locationPermissionGranted = true;
                 hobiku = false;
@@ -420,7 +469,7 @@
 
         // Fungsi untuk mengarahkan pengguna ke halaman hobi dengan lat dan lon
         function redirectToHobi() {
-            if (!isInsideGeofence(nextLat, nextLon)) {
+            if (isInsideGeofence(latUser, lonUser)) {
                 if (userLat !== undefined && userLon !== undefined) {
                     window.location.href = `hobi.html?lat=${userLat}&lon=${userLon}`;
                 }
@@ -497,6 +546,7 @@
         // Fungsi yang akan menangani tombol ketika ditekan
         function handleLocation() {
             hobiku = true;
+            // getLocation();
             if (locationPermissionGranted) {
                 // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
                 redirectToHobi();
