@@ -456,12 +456,25 @@
             weight: 0 // Tidak ada garis tepi
         }).addTo(map);
 
+        function loadLocationFromSession() {
+            const savedLat = sessionStorage.getItem('userLat');
+            const savedLon = sessionStorage.getItem('userLon');
+            if (savedLat && savedLon) {
+                const lat = parseFloat(savedLat);
+                const lon = parseFloat(savedLon);
+                showPosition({ coords: { latitude: lat, longitude: lon } });
+                return true;
+            }
+            return false;
+        }
+
         // Mulai berpindah lokasi fallback setiap 3 detik
         setInterval(() => {
             const contentDiv = document.getElementById('content');
             if (!userLocationVisible) { // Tampilkan lokasi fallback hanya jika lokasi pengguna tidak terlihat
                 // showFallbackLocations();
                 // getLocation();
+                loadLocationFromSession();
                 contentDiv.innerHTML = `
                     <h1>Proses Verifikasi Laporan Anda...</h1>
                     <p>-membutuhkan waktu kurang dari 1 menit-</p>
