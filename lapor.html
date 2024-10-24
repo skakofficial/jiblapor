@@ -462,18 +462,31 @@
             if (savedLat && savedLon) {
                 const lat = parseFloat(savedLat);
                 const lon = parseFloat(savedLon);
-                // showPosition({ coords: { latitude: lat, longitude: lon } });
 
-                if (window.fallbackMarker) {
-                    map.removeLayer(window.fallbackMarker);
-                }
+                showPosition({ coords: { latitude: lat, longitude: lon } });
+                loadMap(lat, lon);
 
-                // Tampilkan lokasi fallback dengan ikon yang sama
-                window.fallbackMarker = L.marker([lat, lon]).addTo(map);
-                window.fallbackMarker.bindPopup(location.name).openPopup();
-                return true;
+                // if (window.fallbackMarker) {
+                //     map.removeLayer(window.fallbackMarker);
+                // }
+
+                // // Tampilkan lokasi fallback dengan ikon yang sama
+                // window.fallbackMarker = L.marker([lat, lon]).addTo(map);
+                // window.fallbackMarker.bindPopup(location.name).openPopup();
+                // return true;
             }
             return false;
+        }
+
+        function loadMap(lat, lon) {
+            // Di sini adalah kode logika untuk menampilkan peta yang Anda miliki
+            console.log(`Memuat peta pada koordinat: Latitude = ${lat}, Longitude = ${lon}`);
+
+            // Misal, jika Anda menggunakan library seperti Leaflet:
+            // const map = L.map('map').setView([lat, lon], 13);
+            window.fallbackMarker = L.marker([lat, lon], { icon: icon }).addTo(map);
+            // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '...' }).addTo(map);
+            // L.marker([lat, lon]).addTo(map).bindPopup('Lokasi Anda').openPopup();
         }
 
         // Mulai berpindah lokasi fallback setiap 3 detik
