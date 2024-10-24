@@ -160,45 +160,12 @@
             text-align: center;
             color: gray;
         }
-
-        @keyframes blink {
-            0% {
-                visibility: visible;
-            }
-
-            50% {
-                visibility: hidden;
-            }
-
-            100% {
-                visibility: visible;
-            }
-        }
-
-        /* Styling untuk tulisan berkedip */
-        .blinking-text {
-            /* line-height: 0.5; */
-            margin-top: 1px;
-            color: red;
-            font-weight: bold;
-            font-size: 18px;
-            animation: blink 1s steps(2, start) infinite;
-        }
     </style>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
         import { getDatabase, ref, set, get, onValue } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js';
 
         let userLat, userLon;
-        let locationPermissionGranted = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let locationPermissionGranted1 = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let locationPermissionGranted2 = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let locationPermissionGranted3 = false;
-
-        let hobiku = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let dayoh = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let liane = false; // Variabel untuk mengecek apakah izin sudah diberikan
-        let kampung = false;
 
         let locationRequested = false;
         let nextLat, nextLon;
@@ -260,20 +227,6 @@
             });
             return L.polygon(bounds).getBounds().contains(L.latLng(lat, lon));
         }
-
-        // function isInsideGeofence(lat, lon) {
-        //     // Ambil koordinat dari defaultLocations
-        //     const bounds = defaultLocations.map(location => {
-        //         const coords = location.coordinates.split(',').map(coord => parseFloat(coord.trim()));
-        //         return [coords[0], coords[1]];
-        //     });
-
-        //     // Buat polygon dari titik-titik tersebut
-        //     const geofencePolygon = L.polygon(bounds);
-
-        //     // Periksa apakah titik pengguna berada di dalam polygon
-        //     return geofencePolygon.getBounds().contains(L.latLng(lat, lon));
-        // }
 
         function checkGeofence(lat, lon) {
             if (isInsideGeofence(lat, lon)) {
@@ -453,35 +406,6 @@
             }
         }
 
-        // function redirectToTamu() {
-        //     if (isInsideGeofence(latUser, lonUser)) {
-        //         window.location.href = `tamu.html?lat=${userLat}&lon=${userLon}`;
-        //     }
-        //     else {
-        //         alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
-        //         window.location.href = `gabut.html`;
-        //     }
-        // }
-
-        // function redirectToLain() {
-        //     if (isInsideGeofence(latUser, lonUser)) {
-        //         window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
-        //     }
-        //     else {
-        //         alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
-        //         window.location.href = `gabut.html`;
-        //     }
-        //     // if (userLat !== undefined && userLon !== undefined) {
-        //     //     window.location.href = `lainnya.html?lat=${userLat}&lon=${userLon}`;
-        //     // }
-        // }
-
-        // function redirectToPeta() {
-        //     if (userLat !== undefined && userLon !== undefined) {
-        //         window.location.href = `peta.html?lat=${userLat}&lon=${userLon}`;
-        //     }
-        // }
-
         function getLocation() {
 
             if (navigator.geolocation) {
@@ -526,6 +450,7 @@
         setInterval(() => {
             if (!userLocationVisible) { // Tampilkan lokasi fallback hanya jika lokasi pengguna tidak terlihat
                 // showFallbackLocations();
+                getLocation();
             }
         }, 3000);
 
@@ -536,11 +461,6 @@
 
                 navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
                     if (result.state === 'granted') {
-                        // Jika izin sudah diberikan, kita bisa langsung berpindah saat tombol ditekan
-                        // locationPermissionGranted = true;
-                        // locationPermissionGranted1 = true;
-                        // locationPermissionGranted2 = true;
-                        // locationPermissionGranted3 = true;
 
                         getLocation();
                         // document.getElementById("warningText").style.display = "none";
@@ -551,11 +471,6 @@
                             userLon = position.coords.longitude;
                         });
                     } else {
-                        // Jika belum diberikan, izin harus diminta dengan menekan tombol
-                        // locationPermissionGranted = false;
-                        // locationPermissionGranted1 = false;
-                        // locationPermissionGranted2 = false;
-                        // locationPermissionGranted3 = false;
                         getLocation();
                         navigator.geolocation.getCurrentPosition(function (position) {
                             userLat = position.coords.latitude;
@@ -579,25 +494,8 @@
 
         // Memulai saat halaman dimuat
         window.onload = async () => {
-            // document.getElementById("locationButton").addEventListener("click", handleLocation);
-            // document.getElementById("tamuButton").addEventListener("click", handleTamu);
-            // document.getElementById("lainButton").addEventListener("click", handleLain);
-            // document.getElementById("homeButton").addEventListener("click", handlePeta);
-            // if (locationPermissionGranted) {
-            //     // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
-            //     getLocation();
-            // }
-            // getLocation();
-            // if (navigator.permissions) {
-            //     const geolocationPermission = await navigator.permissions.query({ name: "geolocation" });
-
-            //     if (geolocationPermission.state === "granted") {
-            //         // Izin sudah diberikan sebelumnya, langsung akses lokasi
-            //         getLocation();
-            //     }
-            // }
-            checkIfLocationAllowed();
-            // getLocation();
+            // checkIfLocationAllowed();
+            getLocation();
             initializeDevice();
             simulateVirtualMovement();
         };
@@ -619,43 +517,8 @@
             <li>Jam kunjung tamu maksimal pukul 21.00 WIB.</li>
             <li>Patuhi aturan setempat selama berada di wilayah ini.</li>
         </ol>
-        <!-- <h2>Kunjungan Anda Sebagai :</h2> -->
-        <!-- <a class="button" href="hobi.html">Pemancing / Pemburu</a> -->
-        <!-- <button class="button" id="locationButton">Pemancing / Pemburu</button>
-        <button class="button" id="tamuButton">Tamu</button>
-        <button class="button" id="lainButton">Lainnya</button> -->
 
         <a class="blue-button" href="index.html">Kembali ke Beranda</a>
-        <!-- <button class="blue-button" id="homeButton">Kembali ke Beranda</button> -->
-        <!-- <h4>Tata Cara Pelaporan :</h4>
-        <ol>
-            <li>Pilih salah satu Anda lapor sebagai apa dengan menekan tombol biru.</li>
-            <li>Izinkan web minta lokasi anda untuk pendaftaran GPS legal.</li>
-            <li>Isi identitas (nama dan alamat singkat / nama dusun).</li>
-            <li>Klik tombol "Lapor" dan tunggu laporan diterima.</li>
-            <li>Setelah laporan diterima maka GPS Anda legal.</li>
-        </ol>
-        <h4>(!) Penting :</h4>
-        <ol>
-            <li>Jam Kunjung maksimal pukul 21.00 WIB.</li>
-            <li>Jika melakukan COD Pengambilan barang diluar jam kunjung klik tombol "Lainnya" dan isikan detail barang
-                yang diambil (contoh: COD burung, COD motor, COD kambing, dll).</li>
-        </ol>
-        <h4>Sistem ini tidak bisa mendeteksi GPS Anda dengan baik selama diluar geofencing (wilayah geografis yang akan
-            memicu respons otomatis) yang telah ditentukan</h4>
-    </div> -->
-
-        <!-- <div id="mampir">Monggo Pinarak :</div>
-    <div class="social-icons">
-        <div>
-            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" />
-            <a href="https://www.tiktok.com/@skak_official?_t=8qXrh64j5yK&_r=1" target="_blank">@skak_official</a>
-        </div>
-        <div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
-            <a href="https://instagram.com/skakofficiall?igsh=anY1NTV4OGRxOXpw" target="_blank">@skakofficiall</a>
-        </div>
-    </div> -->
 
         <footer>
             &copy; Copyright 2024. rdwnsyaiful@gmail.com
