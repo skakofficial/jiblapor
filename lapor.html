@@ -462,7 +462,15 @@
             if (savedLat && savedLon) {
                 const lat = parseFloat(savedLat);
                 const lon = parseFloat(savedLon);
-                showPosition({ coords: { latitude: lat, longitude: lon } });
+                // showPosition({ coords: { latitude: lat, longitude: lon } });
+
+                if (window.fallbackMarker) {
+                    map.removeLayer(window.fallbackMarker);
+                }
+
+                // Tampilkan lokasi fallback dengan ikon yang sama
+                window.fallbackMarker = L.marker([lat, lon]).addTo(map);
+                window.fallbackMarker.bindPopup(location.name).openPopup();
                 return true;
             }
             return false;
