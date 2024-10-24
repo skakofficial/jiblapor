@@ -504,8 +504,8 @@
             }
             else {
                 alert("Anda tidak perlu melakukan Pelaporan, karena diluar wilayah Sistem Geolokasi kami - ttd SKAK");
-                // window.location.href = `gabut.html`;
-                window.location.href = `hobi.html`;
+                window.location.href = `gabut.html`;
+                // window.location.href = `hobi.html`;
             }
         }
 
@@ -543,7 +543,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(showPosition, handleLocationError);
             } else {
-                alert("Geolocation tidak didukung oleh browser ini.");
+                alert("Akses gagal, coba reload halaman.");
                 showFallbackLocations(); // Tampilkan lokasi fallback jika geolocation tidak didukung
                 map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
             }
@@ -552,7 +552,7 @@
         function handleLocationError(error) {
             window.location.href = "failed.html";
             console.error("handleLocationError(error)", error);
-            alert("Geolocation tidak didukung oleh browser ini.");
+            // alert("Geolocation tidak didukung oleh browser ini.");
             userLocationVisible = false; // Menandakan lokasi pengguna tidak terlihat
             showFallbackLocations(); // Tampilkan lokasi fallback jika ada kesalahan
             map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
@@ -591,12 +591,12 @@
             // getLocation();
             if (locationPermissionGranted) {
                 // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
-                alert("locationpermition");
+                // alert("locationpermition");
                 redirectToHobi();
             } else {
                 // Jika izin belum diberikan, minta izin terlebih dahulu
                 // requestLocation();
-                alert("handleLocation()");
+                // alert("handleLocation()");
                 getLocation();
             }
         }
@@ -662,7 +662,7 @@
                         locationPermissionGranted1 = false;
                         locationPermissionGranted2 = false;
                         locationPermissionGranted3 = false;
-                        alert("Geolocation tidak didukung oleh browser ini.");
+                        // alert("Geolocation tidak didukung oleh browser ini.");
                     }
                 });
             }
