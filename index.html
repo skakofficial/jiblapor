@@ -530,8 +530,8 @@
 
         function handleLocationError(error) {
             window.location.href = "failed.html";
-            console.error("Error mendapatkan lokasi:", error);
-
+            console.error("handleLocationError(error)", error);
+            alert("Geolocation tidak didukung oleh browser ini.");
             userLocationVisible = false; // Menandakan lokasi pengguna tidak terlihat
             showFallbackLocations(); // Tampilkan lokasi fallback jika ada kesalahan
             map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
