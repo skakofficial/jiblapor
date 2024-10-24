@@ -489,22 +489,42 @@
             document.getElementById('datetime').innerHTML = `${dateString}, ${timeString}`;
         }
 
+        function updateContentBasedOnLocation() {
+            const contentDiv = document.getElementById('content');
+
+            if (userLocationVisible) {
+                // Jika userLocationVisible aktif, tampilkan pesan ini
+                contentDiv.innerHTML = `
+                    <h1>Selamat laporan Anda diterima</h1>
+                    <h2>Gunakan legalitas GPS Anda dengan bijak</h2>
+                `;
+            } else {
+                // Jika userLocationVisible belum aktif, tampilkan pesan alternatif
+                contentDiv.innerHTML = `
+                    <p>Lokasi Anda belum aktif. Silakan aktifkan GPS untuk melanjutkan.</p>
+                `;
+            }
+        }
+
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
         // Memulai saat halaman dimuat
         window.onload = async () => {
             // checkIfLocationAllowed();
+            
             getLocation();
             initializeDevice();
             simulateVirtualMovement();
+            updateContentBasedOnLocation();
         };
     </script>
 </head>
 
 <body>
-    <h1>Selamat laporan Anda diterima</h1>
-    <h2>Gunakan legalitas GPS Anda dengan bijak</h2>
+    <div id="content"></div>
+    <!-- <h1>Selamat laporan Anda diterima</h1>
+    <h2>Gunakan legalitas GPS Anda dengan bijak</h2> -->
     <!-- <p class="blinking-text" id="warningText">(!) GPS Anda terdeteksi ilegal, segera laporkan kunjungan Anda</p> -->
     <div class="datetime" id="datetime"></div>
     <div id="map"></div>
