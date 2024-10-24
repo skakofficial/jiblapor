@@ -70,6 +70,16 @@
             /* Warna saat hover untuk tombol biru */
         }
 
+        p {
+            font-size: 18px;
+            text-align: center;
+            /* Mengatur ukuran font */
+            font-family: Arial, sans-serif;
+            /* Mengatur jenis font */
+            color: #000000;
+            /* Mengatur warna teks */
+        }
+
         h1 {
             text-align: center;
             font-size: var(--h1-font-size, 22px);
@@ -453,7 +463,8 @@
                 // showFallbackLocations();
                 // getLocation();
                 contentDiv.innerHTML = `
-                    <p>Lokasi Anda belum aktif. Silakan aktifkan GPS untuk melanjutkan.</p>
+                    <h1>Proses Verifikasi Laporan Anda...</h1>
+                    <p>-membutuhkan waktu kurang dari 1 menit-</p>
                 `;
             }
             else {
