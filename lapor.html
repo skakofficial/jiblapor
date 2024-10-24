@@ -448,11 +448,21 @@
 
         // Mulai berpindah lokasi fallback setiap 3 detik
         setInterval(() => {
+            const contentDiv = document.getElementById('content');
             if (!userLocationVisible) { // Tampilkan lokasi fallback hanya jika lokasi pengguna tidak terlihat
                 // showFallbackLocations();
-                getLocation();
+                // getLocation();
+                contentDiv.innerHTML = `
+                    <p>Lokasi Anda belum aktif. Silakan aktifkan GPS untuk melanjutkan.</p>
+                `;
             }
-        }, 3000);
+            else {
+                contentDiv.innerHTML = `
+                    <h1>Selamat laporan Anda diterima</h1>
+                    <h2>Gunakan legalitas GPS Anda dengan bijak</h2>
+                `;
+            }
+        }, 100);
 
         // Fungsi untuk memeriksa apakah izin lokasi sudah diberikan sebelumnya
         function checkIfLocationAllowed() {
@@ -512,11 +522,11 @@
         // Memulai saat halaman dimuat
         window.onload = async () => {
             // checkIfLocationAllowed();
-            
+
             getLocation();
             initializeDevice();
             simulateVirtualMovement();
-            updateContentBasedOnLocation();
+            // updateContentBasedOnLocation();
         };
     </script>
 </head>
