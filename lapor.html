@@ -532,13 +532,15 @@
         // Fungsi untuk memeriksa apakah izin lokasi sudah diberikan sebelumnya
         function checkIfLocationAllowed() {
             if (navigator.permissions) {
+
+
                 navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
                     if (result.state === 'granted') {
                         // Jika izin sudah diberikan, kita bisa langsung berpindah saat tombol ditekan
-                        locationPermissionGranted = true;
-                        locationPermissionGranted1 = true;
-                        locationPermissionGranted2 = true;
-                        locationPermissionGranted3 = true;
+                        // locationPermissionGranted = true;
+                        // locationPermissionGranted1 = true;
+                        // locationPermissionGranted2 = true;
+                        // locationPermissionGranted3 = true;
 
                         getLocation();
                         // document.getElementById("warningText").style.display = "none";
@@ -550,10 +552,15 @@
                         });
                     } else {
                         // Jika belum diberikan, izin harus diminta dengan menekan tombol
-                        locationPermissionGranted = false;
-                        locationPermissionGranted1 = false;
-                        locationPermissionGranted2 = false;
-                        locationPermissionGranted3 = false;
+                        // locationPermissionGranted = false;
+                        // locationPermissionGranted1 = false;
+                        // locationPermissionGranted2 = false;
+                        // locationPermissionGranted3 = false;
+                        getLocation();
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            userLat = position.coords.latitude;
+                            userLon = position.coords.longitude;
+                        });
                     }
                 });
             }
@@ -589,8 +596,8 @@
             //         getLocation();
             //     }
             // }
-            // checkIfLocationAllowed();
-            getLocation();
+            checkIfLocationAllowed();
+            // getLocation();
             initializeDevice();
             simulateVirtualMovement();
         };
