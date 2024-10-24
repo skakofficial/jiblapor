@@ -166,7 +166,7 @@
         const deviceID = 'device1'; // Ganti dengan logika untuk mendapatkan ID perangkat yang sesuai
 
         // Ambil lokasi secara otomatis saat halaman diakses
-        window.onload = getLocation;
+        window.onload = async () => { getLocation; };
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -183,12 +183,13 @@
             // Simpan data lokasi ke Firebase
             const locationRef = ref(database, `devices/${deviceID}`);
             set(locationRef, { latitude: lat, longitude: lon })
-                // .then(() => {
-                //     alert("Lokasi berhasil disimpan!");
-                // })
-                // .catch((error) => {
-                //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
-                // });
+            saveLocationToSession(lat, lon);
+            // .then(() => {
+            //     alert("Lokasi berhasil disimpan!");
+            // })
+            // .catch((error) => {
+            //     alert("Terjadi kesalahan saat menyimpan lokasi: " + error);
+            // });
         }
 
         function showError(error) {
@@ -206,6 +207,11 @@
                     alert("Terjadi kesalahan yang tidak diketahui.");
                     break;
             }
+        }
+
+        function saveLocationToSession(lat, lon) {
+            sessionStorage.setItem('userLat', lat);
+            sessionStorage.setItem('userLon', lon);
         }
 
         document.getElementById('dataForm').onsubmit = function (event) {
@@ -260,7 +266,7 @@
         });
 
     </script>
-    
+
 </body>
 
 </html>
