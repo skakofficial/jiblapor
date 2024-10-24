@@ -35,7 +35,28 @@
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #3106a8;
+            /* Warna saat hover */
+        }
+
+        .button2 {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #000000;
+            /* Warna hijau */
+            color: white;
+            /* Warna teks */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            /* Menghilangkan garis bawah */
+        }
+
+        .button2:hover {
+            background-color: #45414e;
             /* Warna saat hover */
         }
 
@@ -65,7 +86,7 @@
         }
 
         .blue-button:hover {
-            background-color: #007bb5;
+            background-color: #67d488;
             /* Warna saat hover untuk tombol biru */
         }
 
@@ -570,7 +591,7 @@
             // getLocation();
             if (locationPermissionGranted) {
                 // Jika izin lokasi sudah diberikan, langsung pindah ke halaman hobi
-                alert("handleLocation() locationpermition");
+                alert("locationpermition");
                 redirectToHobi();
             } else {
                 // Jika izin belum diberikan, minta izin terlebih dahulu
@@ -728,6 +749,8 @@
 
         <!-- <a class="blue-button" href="peta.html">Peta Dusun Krapyak</a> -->
         <button class="blue-button" id="petaButton">Peta Dusun Krapyak</button>
+        <a class="button2" href="https://docs.google.com/spreadsheets/d/1l-dfpLEA6jWweSkvfPVXeMLOOzfRiU40yi8tc0VOfyY/edit?usp=sharing">Cek Data Pengunjung (Admin only)</a>
+        <!-- <h5>()</h5> -->
         <h4>Tata Cara Pelaporan :</h4>
         <ol>
             <li>Pilih salah satu Anda lapor sebagai apa dengan menekan tombol biru.</li>
