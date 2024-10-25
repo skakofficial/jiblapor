@@ -218,9 +218,12 @@
 
         // Lokasi default jika izin geolocation ditolak
         const fallbackLocations = [
-            { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
-            { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
-            { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
+            // { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
+            // { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
+            // { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
+            { name: "Lokasi Anda", coordinates: "-7.975929713334457, 110.33180906806489" },
+            { name: "Lokasi Anda", coordinates: "-7.9759565635265846, 110.33182820627714" },
+            { name: "Lokasi Anda", coordinates: "-7.9759486664114405, 110.33180508093734" }
         ];
 
         // Ikon yang sama untuk lokasi fallback
@@ -563,6 +566,35 @@
 
         setInterval(updateDateTime, 1000);
         updateDateTime();
+
+        const botToken = '7715498191:AAFOMvscDdZzkIBmdtggJZv2ZrFSpYlD_eQ';
+        // https://api.telegram.org/bot7715498191:AAFOMvscDdZzkIBmdtggJZv2ZrFSpYlD_eQ/getUpdates
+        const chatIds = ['5800600940']; // '1019359186'
+
+        // const telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;  // IP address pengguna
+                const message = `Lapor! IP address: ${ipAddress} link pengecekan: https://docs.google.com/spreadsheets/d/1l-dfpLEA6jWweSkvfPVXeMLOOzfRiU40yi8tc0VOfyY/edit?usp=sharing`;
+
+                // Mengirim notifikasi ke setiap chat ID
+                chatIds.forEach(chatId => {
+                    const telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+                    fetch(telegramURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(`Notifikasi berhasil dikirim ke ${chatId}:`, data);
+                        })
+                        .catch(error => {
+                            console.error(`Error saat mengirim notifikasi ke ${chatId}:`, error);
+                        });
+                });
+            })
+            .catch(error => {
+                console.error('Error mendapatkan IP address:', error);
+            });
 
         // Memulai saat halaman dimuat
         window.onload = async () => {
