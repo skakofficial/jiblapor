@@ -225,7 +225,7 @@
         const database = getDatabase(app);
 
         // let deviceID = 'device1'; // ID perangkat aktif saat ini
-        const deviceID = `device_${Math.random().toString(36).substr(2, 9)}`; // Menghasilkan ID unik untuk setiap perangkat
+        const deviceID = `device_${Math.random().toString(36).substr(2, 9)}`;
         let isFirstLoad = true;
         let stepSize = 0.0002; // Ukuran langkah
         let virtualLat = -7.975500; // Lokasi virtual awal
@@ -323,6 +323,8 @@
             set(locationRef, { latitude: virtualLat, longitude: virtualLon });
         }
 
+        
+
         function simulateVirtualMovement() {
             setInterval(() => {
                 if (isActiveDevice && virtualLocationExists) {
@@ -366,6 +368,7 @@
         }
 
         function initializeDevice() {
+            
             const virtualLocationRef = ref(database, `devices/virtualLocation`);
             onValue(virtualLocationRef, (snapshot) => {
                 const virtualLocation = snapshot.val();
@@ -374,6 +377,7 @@
                     virtualLon = virtualLocation.longitude;
                     virtualLocationExists = true; // Menandakan lokasi virtual ada
                     console.log("Mengikuti lokasi virtual:", virtualLat, virtualLon);
+                    checkIfLocationAllowed();
                 } else {
                     location.reload();
                     // Jika tidak ada lokasi virtual, perangkat ini akan membuat lokasi virtual baru
@@ -643,7 +647,9 @@
 
         // Fungsi untuk memeriksa apakah izin lokasi sudah diberikan sebelumnya
         function checkIfLocationAllowed() {
+            console.log("cek ijin lokasi");
             if (navigator.permissions) {
+                // console.log("cek ijin lokasi");
                 navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
                     if (result.state === 'granted') {
                         // Jika izin sudah diberikan, kita bisa langsung berpindah saat tombol ditekan
@@ -660,12 +666,14 @@
                             userLat = position.coords.latitude;
                             userLon = position.coords.longitude;
                         });
+                        console.log("update lokasi");
                     } else {
                         // Jika belum diberikan, izin harus diminta dengan menekan tombol
                         locationPermissionGranted = false;
                         locationPermissionGranted1 = false;
                         locationPermissionGranted2 = false;
                         locationPermissionGranted3 = false;
+                        console.log("lokasi not update");
                         // alert("Geolocation tidak didukung oleh browser ini.");
                     }
                 });
@@ -680,7 +688,7 @@
             document.getElementById('datetime').innerHTML = `${dateString}, ${timeString}`;
         }
 
-        setInterval(updateDateTime, 3000);
+        setInterval(updateDateTime, 1000);
         updateDateTime();
 
         // Memulai saat halaman dimuat
