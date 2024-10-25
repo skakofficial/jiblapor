@@ -230,9 +230,12 @@
 
         // Lokasi default jika izin geolocation ditolak
         const fallbackLocations = [
-            { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
-            { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
-            { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
+            // { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
+            // { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
+            // { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
+            { name: "Lokasi Anda", coordinates: "-7.975929713334457, 110.33180906806489" },
+            { name: "Lokasi Anda", coordinates: "-7.9759565635265846, 110.33182820627714" },
+            { name: "Lokasi Anda", coordinates: "-7.9759486664114405, 110.33180508093734" }
         ];
 
         // Ikon yang sama untuk lokasi fallback
@@ -387,8 +390,7 @@
 
             if (isFirstLoad) {
                 // Mengatur tampilan ke lokasi pengguna pada pemuatan pertama
-                // map.setView([lat, lon], 15);
-                map.setView([-7.9752553280231, 110.33341259493646], 16);
+                map.setView([lat, lon], 15);
                 isFirstLoad = false;
             }
 
@@ -571,7 +573,7 @@
         <h2></h2>
         <h4>Cara mengatasi :</h4>
         <ol>
-            <h3>Jika Anda menutup dialog izin lokasi (klik icon close) :</h3>
+            <h3>Jika Anda menutup dialog izin lokasi :</h3>
             <l4>Klik tombol "Kembali Ke Beranda" kemudian lakukan Pelaporan.</h4>
             <!-- <li>Jika Anda menutup (klik icon close) dialog izin lokasi.</li> -->
             <h3>Jika Anda menolak permintaan Izin Lokasi / Don't Allow / Blokir Lokasi:</h3>
