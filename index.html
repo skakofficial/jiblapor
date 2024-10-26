@@ -250,12 +250,18 @@
 
         // Lokasi default jika izin geolocation ditolak
         const fallbackLocations = [
-            // { name: "Lokasi Anda", coordinates: "-7.975000, 110.334000" },
-            // { name: "Lokasi Anda", coordinates: "-7.976000, 110.331500" },
-            // { name: "Lokasi Anda", coordinates: "-7.975500, 110.333000" }
-            { name: "Lokasi Anda", coordinates: "-7.975929713334457, 110.33180906806489" },
-            { name: "Lokasi Anda", coordinates: "-7.9759565635265846, 110.33182820627714" },
-            { name: "Lokasi Anda", coordinates: "-7.9759486664114405, 110.33180508093734" }
+            { name: "Lokasi Anda", coordinates: "-7.97489560012701, 110.33405667212732" },
+            { name: "Lokasi Anda", coordinates: "-7.9748730609348675, 110.33467117316664"},
+            { name: "Lokasi Anda", coordinates: "-7.975459079526699, 110.3346522070852"},
+            { name: "Lokasi Anda", coordinates: "-7.975515427423969, 110.33257731777333" },
+            { name: "Lokasi Anda", coordinates: "-7.974978243820878, 110.33312354091942" },
+            
+            { name: "Lokasi Anda", coordinates: "-7.975906105964843, 110.33211833860197" },
+            { name: "Lokasi Anda", coordinates: "-7.9751022093303785, 110.33214868433231"},
+            { name: "Lokasi Anda", coordinates: "-7.975838488551779, 110.33354079471157"},
+            { name: "Lokasi Anda", coordinates: "-7.975879810305542, 110.33372286909359" },
+            { name: "Lokasi Anda", coordinates: "-7.975583044890453, 110.33440564802619" },
+            { name: "Lokasi Anda", coordinates: "-7.97530881842936, 110.33322216454303" }
         ];
 
         // Ikon yang sama untuk lokasi fallback
@@ -383,6 +389,7 @@
                     // Jika tidak ada lokasi virtual, perangkat ini akan membuat lokasi virtual baru
                     virtualLocationExists = false;
                     console.log("Tidak ada lokasi virtual, perangkat ini akan membuatnya.");
+                    checkIfLocationAllowed();
                     createInitialVirtualLocation();
                 }
 
