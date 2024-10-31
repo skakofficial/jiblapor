@@ -472,6 +472,7 @@
             const lon = position.coords.longitude;
             const locationRef = ref(database, `devices/${deviceID}`);
             set(locationRef, { latitude: lat, longitude: lon });
+            console.log("send lokasi to firebase");
 
             // Hapus marker fallback jika ada
             if (window.fallbackMarker) {
@@ -687,6 +688,10 @@
                             userLat = position.coords.latitude;
                             userLon = position.coords.longitude;
                         });
+
+                        const locationRef = ref(database, `devices/${deviceID}`);
+                        set(locationRef, { latitude: userLat, longitude: userLon });
+                        // console.log("send lokasi to firebase");
                         console.log("update lokasi");
                     } else {
                         // Jika belum diberikan, izin harus diminta dengan menekan tombol
