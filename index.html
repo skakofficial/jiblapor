@@ -208,8 +208,10 @@
         }
     </style>
     <script type="module">
+        // import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
+        // import { getDatabase, ref, set, get, onValue } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js';
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js';
-        import { getDatabase, ref, set, get, onValue } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js';
+        import { getDatabase, ref, set, onDisconnect, get, onValue } from 'https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js';
 
         let userLat, userLon;
         let locationPermissionGranted = false; // Variabel untuk mengecek apakah izin sudah diberikan
@@ -238,8 +240,23 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
+        let map;
+        let marker;
+
+        // Fungsi untuk mendapatkan atau membuat deviceId
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('deviceId');
+            if (!deviceId) {
+                // Jika tidak ada deviceId, buat ID baru berdasarkan waktu dan simpan ke LocalStorage
+                deviceId = `device${Date.now()}`;
+                localStorage.setItem('deviceId', deviceId);
+            }
+            return deviceId;
+        }
+        const deviceId = getDeviceId();
+
         // let deviceID = 'device1'; // ID perangkat aktif saat ini
-        const deviceID = `device_${Math.random().toString(36).substr(2, 9)}`;
+        // const deviceID = `device_${Math.random().toString(36).substr(2, 9)}`;
         let isFirstLoad = true;
         let stepSize = 0.0002; // Ukuran langkah
         let virtualLat = -7.975500; // Lokasi virtual awal
@@ -349,7 +366,7 @@
             setInterval(() => {
                 if (isActiveDevice && virtualLocationExists) {
                     // Mengambil lokasi pengguna dari Firebase
-                    const userLocationRef = ref(database, `devices/${deviceID}`);
+                    const userLocationRef = ref(database, `devices/${deviceId}`);
                     get(userLocationRef).then(snapshot => {
                         const userLocation = snapshot.val();
                         if (!userLocation) return; // Cek jika data pengguna tidak ada
@@ -470,8 +487,19 @@
         function showPosition(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-            const locationRef = ref(database, `devices/${deviceID}`);
-            set(locationRef, { latitude: lat, longitude: lon });
+            // const locationRef = ref(database, `devices/${deviceID}`);
+            // set(locationRef, { latitude: lat, longitude: lon });
+            const deviceId = getDeviceId();
+            const locationRef = ref(database, `devices/${deviceId}`);
+            // Menyimpan data lokasi ke Firebase
+            set(locationRef, {
+                latitude: lat,
+                longitude: lon,
+                timestamp: Date.now()
+            });
+
+            // Menghapus data ketika perangkat keluar
+            onDisconnect(locationRef).remove();
             console.log("send lokasi to firebase");
 
             // Hapus marker fallback jika ada
@@ -490,6 +518,20 @@
             if (window.userMarker) {
                 map.removeLayer(window.userMarker);
             }
+
+            // Update posisi di peta
+            if (!map) {
+                map = L.map('map').setView([lat, lon], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+            }
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([lat, lon]).addTo(map);
+            map.setView([lat, lon], 15);
 
             window.userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
@@ -571,7 +613,9 @@
         function getLocation() {
 
             if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(showPosition, handleLocationError);
+                navigator.geolocation.watchPosition(showPosition, handleLocationError, {
+                    enableHighAccuracy: true
+                });
             } else {
                 alert("Akses gagal, coba reload halaman.");
                 showFallbackLocations(); // Tampilkan lokasi fallback jika geolocation tidak didukung
@@ -592,7 +636,7 @@
         }
 
         // Inisialisasi peta
-        const map = L.map('map').setView([-7.975500, 110.333500], 10);
+        map = L.map('map').setView([-7.975500, 110.333500], 10);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
         // Buat wilayah geofencing dengan warna biru muda transparan
@@ -689,7 +733,7 @@
                             userLon = position.coords.longitude;
                         });
 
-                        const locationRef = ref(database, `devices/${deviceID}`);
+                        const locationRef = ref(database, `devices/${deviceId}`);
                         set(locationRef, { latitude: userLat, longitude: userLon });
                         // console.log("send lokasi to firebase");
                         console.log("update lokasi");
