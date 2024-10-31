@@ -114,6 +114,20 @@
             margin-right: 8px;
         }
 
+        .custom-icon {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            /* Sesuaikan dengan kebutuhan */
+        }
+
+        .custom-icon img {
+            width: 170px;
+            height: 50px;
+        }
+
         .social-icons a {
             color: #007BFF;
             text-decoration: none;
@@ -314,7 +328,7 @@
                         if (window.virtualMarker) {
                             map.removeLayer(window.virtualMarker);
                         }
-                        window.virtualMarker = L.marker([virtualLat, virtualLon],{ icon: icon1 }).addTo(map);
+                        window.virtualMarker = L.marker([virtualLat, virtualLon], { icon: icon1 }).addTo(map);
                         window.virtualMarker.bindPopup("GPS Patrol");
                     });
                 }
@@ -342,7 +356,7 @@
                     if (window.virtualMarker) {
                         map.removeLayer(window.virtualMarker);
                     }
-                    window.virtualMarker = L.marker([virtualLat, virtualLon], {icon : icon1}).addTo(map);
+                    window.virtualMarker = L.marker([virtualLat, virtualLon], { icon: icon1 }).addTo(map);
                     window.virtualMarker.bindPopup("GPS Patrol").openPopup();
                 }
             });
@@ -575,21 +589,21 @@
         <ol>
             <h3>Jika Anda menutup dialog izin lokasi :</h3>
             <l4>Klik tombol "Kembali Ke Beranda" kemudian lakukan Pelaporan.</h4>
-            <!-- <li>Jika Anda menutup (klik icon close) dialog izin lokasi.</li> -->
-            <h3>Jika Anda menolak permintaan Izin Lokasi / Don't Allow / Blokir Lokasi:</h3>
-            <li>Klik tombol "Kembali Ke Beranda"</li>
-            <li>Masuk ke setting dengan klik icon titik 3 pojok kanan atas.</li>
-            <li>Cari history / penjelajahan.</li>
-            <li>Hapus history / data penjelajahan (rekomendasi history 1 jam terakhir).</li>
-            <li>Jika sudah, reload halaman dan lakukan Pelaporan.</li>
-            <!-- <h4>  </h4> -->
-            <!-- <li>Jika Anda menutup (klik icon close) dialog izin lokasi.</li> -->
-            
-            <!-- <li>Izinkan web minta lokasi anda untuk pendaftaran GPS legal.</li>
+                <!-- <li>Jika Anda menutup (klik icon close) dialog izin lokasi.</li> -->
+                <h3>Jika Anda menolak permintaan Izin Lokasi / Don't Allow / Blokir Lokasi:</h3>
+                <li>Klik tombol "Kembali Ke Beranda"</li>
+                <li>Masuk ke setting dengan klik icon titik 3 pojok kanan atas.</li>
+                <li>Cari history / penjelajahan.</li>
+                <li>Hapus history / data penjelajahan (rekomendasi history 1 jam terakhir).</li>
+                <li>Jika sudah, reload halaman dan lakukan Pelaporan.</li>
+                <!-- <h4>  </h4> -->
+                <!-- <li>Jika Anda menutup (klik icon close) dialog izin lokasi.</li> -->
+
+                <!-- <li>Izinkan web minta lokasi anda untuk pendaftaran GPS legal.</li>
             <li>Isi identitas (nama dan alamat singkat / nama dusun).</li>
             <li>Klik tombol "Lapor" dan tunggu laporan diterima.</li>
             <li>Setelah laporan diterima maka GPS Anda legal.</li> -->
-            <!-- <li>Patuhi aturan setempat selama berada di wilayah ini.</li> -->
+                <!-- <li>Patuhi aturan setempat selama berada di wilayah ini.</li> -->
         </ol>
         <!-- <a class="button" href="hobi.html">Pemancing / Pemburu</a> -->
         <!-- <button class="button" id="locationButton">Pemancing / Pemburu</button> -->
@@ -604,7 +618,7 @@
     </div>
 
 
-    <div id="mampir">Monggo Pinarak :</div>
+    <!-- <div id="mampir">Monggo Pinarak :</div>
     <div class="social-icons">
         <div>
             <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" />
@@ -614,7 +628,34 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
             <a href="https://instagram.com/skakofficiall?igsh=anY1NTV4OGRxOXpw" target="_blank">@skakofficiall</a>
         </div>
+    </div> -->
+    <div class="custom-icon">
+        <div>
+            <a href="https://wa.me/6285877229581?text=Kang,%20saya%20bingung%20kenapa%20tidak%20bisa%20melakukan%20Pelaporan" target="_blank">
+                <img src="https://raw.githubusercontent.com/skakofficial/jiblapor/main/cc.png" alt="WhatsApp" />
+            </a>
+        </div>
     </div>
+
+    <div id="mampir">Monggo Pinarak :</div>
+
+    <div class="social-icons">
+        <div>
+            <a href="https://www.tiktok.com/@skak_official?_t=8qXrh64j5yK&_r=1" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" />
+                <!-- <img src="https://raw.githubusercontent.com/skakofficial/jiblapor/main/cc.png" alt="TikTok"
+                    class="custom-icon" /> -->
+            </a>
+            <a href="https://www.tiktok.com/@skak_official?_t=8qXrh64j5yK&_r=1" target="_blank">@skak_official</a>
+        </div>
+        <div>
+            <a href="https://instagram.com/skakofficiall?igsh=anY1NTV4OGRxOXpw" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
+            </a>
+            <a href="https://instagram.com/skakofficiall?igsh=anY1NTV4OGRxOXpw" target="_blank">@skakofficiall</a>
+        </div>
+    </div>
+
 
     <script>
         function getLocation() {
