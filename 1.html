@@ -508,7 +508,7 @@
 
             // Update posisi di peta
             if (!map) {
-                map = L.map('map').setView([lat, lon], 13);
+                map = L.map('map').setView([lat, lon], 16);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                 }).addTo(map);
@@ -518,7 +518,7 @@
                 map.removeLayer(marker);
             }
             marker = L.marker([lat, lon]).addTo(map);
-            map.setView([lat, lon], 15);
+            map.setView([lat, lon], 16);
 
             window.userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
