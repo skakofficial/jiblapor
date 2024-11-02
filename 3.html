@@ -508,7 +508,7 @@
 
             // Update posisi di peta
             if (!map) {
-                map = L.map('map').setView([lat, lon], 13);
+                map = L.map('map').setView([lat, lon], 16);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                 }).addTo(map);
@@ -518,7 +518,7 @@
                 map.removeLayer(marker);
             }
             marker = L.marker([lat, lon]).addTo(map);
-            map.setView([lat, lon], 15);
+            map.setView([lat, lon], 16);
 
             window.userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
@@ -606,7 +606,7 @@
             } else {
                 alert("Akses gagal, coba reload halaman.");
                 showFallbackLocations(); // Tampilkan lokasi fallback jika geolocation tidak didukung
-                map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
+                map.setView([-7.975500, 110.333500], 16); // Set view ke lokasi default
             }
         }
 
@@ -616,7 +616,7 @@
             // alert("Geolocation tidak didukung oleh browser ini.");
             userLocationVisible = false; // Menandakan lokasi pengguna tidak terlihat
             showFallbackLocations(); // Tampilkan lokasi fallback jika ada kesalahan
-            map.setView([-7.975500, 110.333500], 15); // Set view ke lokasi default
+            map.setView([-7.975500, 110.333500], 16); // Set view ke lokasi default
             setInterval(() => {
                 location.reload();
             }, 3000);
