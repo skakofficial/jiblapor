@@ -262,7 +262,6 @@
         // https://api.telegram.org/bot7715498191:AAFOMvscDdZzkIBmdtggJZv2ZrFSpYlD_eQ/getUpdates
         const chatIds = ['5800600940']; // '1019359186'
 
-        // const telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
