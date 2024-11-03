@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode with Flexible Header and Centered Loading</title>
+    <style>
+        /* Tampilan Dark Mode */
+        body {
+            background-color: #c5e60b;
+            color: #000000;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* h1 {
+            font-size: 10px;
+            font-weight: bold;
+            margin: 0.67em 0;
+            color: #ffffff;
+        } */
+
+        /* Header di atas sendiri */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 20px 20px 80px;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 17px;
+            margin: 0;
+            color: #ffffff;
+            /* Warna teks yang kontras */
+        }
+
+        /* Konten utama di tengah */
+        .content {
+            margin-top: 100px;
+            /* Memberi jarak dari header */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 100px);
+            /* Tinggi area konten dikurangi tinggi header */
+        }
+
+        .content p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        /* Animasi Loading */
+        .loading {
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ffffff;
+            border-top: 5px solid #ff5722;
+            /* Warna kontras */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Gambar di pojok kiri atas */
+        .header img {
+            position: absolute;
+            left: 0px;
+            top: 2px;
+            width: 100px;
+            height: 70px;
+            border-radius: 50%;
+            /* Membuat gambar berbentuk lingkaran */
+        }
+
+        /* Kontainer untuk Kamera CCTV */
+        .cctv-container {
+            position: fixed;
+            top: 130px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Gaya gambar CCTV (GIF) */
+        .cctv-gif {
+            width: 100px;
+            height: auto;
+            margin: 0 10px;
+            /* Jarak antara dua GIF */
+            border-radius: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: center;
+            color: gray;
+        }
+    </style>
+    <!-- <script>
+        setTimeout(function () {
+            window.location.href = `index.html`; 
+        }, 2000);
+    </script> -->
+</head>
+
+<body>
+
+
+    <!-- Header di atas sendiri -->
+    <div class="header">
+        <img src="https://raw.githubusercontent.com/skakofficial/jiblapor/main/99.png" alt="Logo">
+        <h1>Solidaritas Kawula Muda Krapyak</h1>
+    </div>
+
+    <div class="cctv-container">
+        <!-- Animasi CCTV dari URL GIF -->
+        <img src="https://raw.githubusercontent.com/skakofficial/jiblapor/main/cctv.gif" alt="CCTV Animation"
+            class="cctv-gif">
+        <img src="https://raw.githubusercontent.com/skakofficial/jiblapor/main/gps.gif" alt="CCTV Animation"
+            class="cctv-gif">
+    </div>
+
+    <!-- Konten utama di tengah -->
+    <div class="content">
+        <h1>SISTEM JIBLAPOR KRAPYAK</h1>
+        <p>Loading...</p>
+
+        <!-- Elemen Animasi Loading -->
+        <div class="loading"></div>
+    </div>
+    <footer>
+        &copy; Copyright 2024. rdwnsyaiful@gmail.com
+        <!-- <a>gmail@skak.com</a> -->
+    </footer>
+</body>
+
+</html>
