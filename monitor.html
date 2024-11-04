@@ -448,9 +448,9 @@
             }
 
             // Hapus marker pengguna sebelumnya jika ada
-            if (window.userMarker) {
-                map.removeLayer(window.userMarker);
-            }
+            // if (window.userMarker) {
+            //     map.removeLayer(window.userMarker);
+            // }
 
             // Update posisi di peta
             if (!map) {
@@ -466,7 +466,7 @@
             marker = L.marker([lat, lon]).addTo(map);
             map.setView([lat, lon], 15);
 
-            window.userMarker = L.marker([lat, lon]).addTo(map);
+            // window.userMarker = L.marker([lat, lon]).addTo(map);
             userLocationVisible = true; // Menandakan lokasi pengguna terlihat
             latUser = lat;
             lonUser = lon;
@@ -708,7 +708,7 @@
                         //     .bindPopup(`<b>${deviceId}</b><br>Latitude: ${lat}<br>Longitude: ${lon}`);
 
                         const marker = L.marker([lat, lon]).addTo(map)
-                            .bindPopup(`<b>${deviceId}</b><br>Latitude: ${lat}<br>Longitude: ${lon}`);
+                            // .bindPopup(`<b>${deviceId}</b><br>Latitude: ${lat}<br>Longitude: ${lon}`);
 
                         // Simpan marker dalam objek markers
                         markers[deviceId] = marker;
